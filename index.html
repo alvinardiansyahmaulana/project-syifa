@@ -11,11 +11,22 @@
 <body>
     <div class="container pt-5">
         <div class="form-group">
-            <input type="file" name="open_file" id="open_file" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            <form id="form">
+                <!-- <input type="file" name="open_file" id="open_file" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"> -->
+                <input type="text" name="test" id="test" class="form-control">
+                <input type="submit" value="Send" id="send" class="btn btn-primary btn-block">
+            </form>
         </div>
+
+        <div class="row" id="optimum_data_table">
+        </div>
+
+        <div class="row" id="additional_data_table"></div>
+
     </div>
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>
