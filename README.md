@@ -14,13 +14,13 @@ Calculate optimum setup for company profitability
 - pipenv 2022.8.5
 ## Installation
 
-Install project depedency with npm
+Install project dependency with npm
 
 ```bash
   npm install
 ```
 
-Install python venv depdency with pip inside pipenv
+Install python venv dependency with pip inside pipenv
 
 ```bash
   cd process
