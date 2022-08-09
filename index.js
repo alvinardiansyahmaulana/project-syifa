@@ -10,8 +10,7 @@ $(() => {
             mode: 'text',
             args: [$('#test').val()]
         };
-    
-    
+        
         console.log(options.args[0])
         PythonShell.run('./process/main.py', options, (error, result) => {
             if (error) throw error;
