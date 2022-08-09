@@ -1,23 +1,18 @@
 const $ = jQuery = require('jquery');
-const { data } = require('jquery');
-const { PythonShell } = require('python-shell');
+const { spawn } = require('child_process');
 
 $(() => {
 
     $('#form').on('submit', (e) => {
         e.preventDefault();
-        let options = {
-            mode: 'text',
-            args: [$('#test').val()]
-        };
-        
-        console.log(options.args[0])
-        PythonShell.run('./process/main.py', options, (error, result) => {
-            if (error) throw error;
+        let filePath = $('#file')[0].files[0].path;
 
-            let data = JSON.parse(result[0])
-            console.log(data);
-            
+        const pythonProcess = spawn('cd process && pipenv run python', ['main.py', filePath], {shell: true});
+
+        pythonProcess.stdout.on('data', (data) => {
+            data = data.toString()
+            data = JSON.parse(data)
+
             $.each(data[0], (i, values) => {
                 createOptimumDataTable(i)
 
@@ -31,9 +26,23 @@ $(() => {
             })
 
             $.each(data, (index, values) => {
-                if (index < 1) return
+                let tableName = '';
 
-                createAdditionalDataTable(index, values.length)
+                switch(index) {
+                    case 0:
+                        return;
+                    case 1:
+                        tableName = 'MAX';
+                        break;
+                    case 2:
+                        tableName = 'SUM';
+                        break;
+                    default:
+                        tableName = ''
+                        break;
+                }
+                
+                createAdditionalDataTable(index, values.length, tableName)
 
                 $.each(values, (n, value) => {
 
@@ -42,7 +51,20 @@ $(() => {
                     `)
                 })
             })
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            console.log(data.toString());
+        });
+
+        pythonProcess.on('error', (error) => {
+            console.error(error.message)
+        });
+
+        pythonProcess.on('close', (code) => {
+            console.log('child process exited with code: ', code)
         })
+
     })
 
     let createOptimumDataTable = (id) => {
@@ -58,12 +80,12 @@ $(() => {
         `)
     }
 
-    let createAdditionalDataTable = (id, len) => {
+    let createAdditionalDataTable = (id, len, tableName) => {
         return $('#additional_data_table').append(`
             <div class="col">
                 <table class="table">
                     <tr>
-                        <th colspan=${len}>Additionl Data ${id}</th>
+                        <th colspan=${len}>${tableName} Data ${id}</th>
                     </tr>
                     <tbody id=additional_data_table_${id}>
                         <tr></tr>
