@@ -4,15 +4,16 @@ from math import isnan
 
 def optimumCalculator(file):
     try:
-        data = read_csv(file)
+        data = readFile(file)
+
         dataList = data.T.reset_index().values.tolist()
         filteredDataList = list(map(lambda x: list(filter(lambda y: isinstance(y, (int, float)) and isnan(y) == False, x)), dataList))
         
         optimumProcess = calculateOptimum(filteredDataList)
 
-        maxOptimumProcess = [max(x) for x in optimumProcess]
+        maxOptimumProcess = list(map(lambda x: max(x), optimumProcess))
 
-        sumOfOptimumProcess = [sum(x) for x in optimumProcess]
+        sumOfOptimumProcess = list(map(lambda x: sum(x), optimumProcess))
 
         return [
             optimumProcess,
@@ -26,10 +27,17 @@ def optimumCalculator(file):
         return e
 
 def calculateOptimum(data):
-    return [findOptimum(data[n-1], data[n]) for n in range(1, len(data))]
+    return list(map(lambda n: findOptimum(data[n-1], data[n]), range(1, len(data))))
 
 def findOptimum(a, b):
     return [n*m for n in a for m in b]
+
+def readFile(file):
+    if file.lower().endswith('.csv'):
+        return read_csv(file)
+    
+    if file.lower().endswith(('.xls', '.xlsx')):
+        return read_excel(file)
 
 if __name__ == '__main__':
     print(optimumCalculator(argv[1]))
