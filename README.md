@@ -21,12 +21,12 @@ Install project dependency with npm
   npm install
 ```
 
-Install python venv dependency with pip inside pipenv
+Install python venv dependency with pipenv
 
 ```bash
   cd process
     
-  pipenv run pip install -r requirements.txt
+  pipenv install
 ```
 ## Run Locally
 
