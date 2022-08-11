@@ -7,7 +7,7 @@ $(() => {
         e.preventDefault();
         let filePath = $('#file')[0].files[0].path;
 
-        const pythonProcess = spawn('cd process && pipenv run python', ['main.py', filePath], {shell: true});
+        const pythonProcess = spawn('cd process && python -m pipenv run python', ['main.py', filePath], {shell: true});
 
         pythonProcess.stdout.on('data', (data) => {
             data = data.toString()
