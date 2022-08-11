@@ -12,6 +12,7 @@ Calculate optimum setup for company profitability
 - Python 3.10.0
 - Pip 22.2.2
 - pipenv 2022.8.5
+- Python setuptools == 58.3.0
 ## Installation
 
 Install project dependency with npm
